@@ -1,0 +1,170 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "REMJ Service API",
+    "version": "1.0",
+    "description": "REMJ API to list Active partners and Onboard ST and B2Bi Partners"
+  },
+  "host": "st.axwway.com",
+  "paths": {
+    "/partners": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "summary": "Get Partner",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "startTime",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "endTime",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "x-flow": "remjServiceApi-getPartners"
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "201": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partner"
+            }
+          }
+        ],
+        "summary": "Create Partner",
+        "x-flow": "remjServiceApi-postPartners"
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "summary": "Update Partner"
+      }
+    }
+  },
+  "basePath": "/v1",
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "Partner": {
+      "type": "object",
+      "description": "Partner Object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "createdDate": {
+          "type": "string"
+        },
+        "lastLoggedIn": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "protocol": {
+          "$ref": "#/definitions/Protocol"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "volumeTransferred": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Protocol": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "x509Certificate": {
+          "type": "string"
+        },
+        "authType": {
+          "type": "string"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "title": "Address",
+      "description": "address",
+      "properties": {
+        "addressLine": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "integer"
+        },
+        "countryCode": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

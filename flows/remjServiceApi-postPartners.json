@@ -1,0 +1,159 @@
+{
+	"schemaVersion": "3",
+	"info": {
+		"name": "remjServiceApi - post /partners"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "doT.1",
+	"nodes": {
+		"st-admin.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-swagger/st-admin",
+			"name": "createAccounts",
+			"method": "createAccounts",
+			"parameters": [],
+			"outputs": {
+				"204": {
+					"routes": [
+						"doT.2"
+					],
+					"context": "$.response"
+				},
+				"400": {
+					"routes": [],
+					"context": "$.error"
+				},
+				"401": {
+					"routes": [],
+					"context": "$.error"
+				},
+				"403": {
+					"routes": [],
+					"context": "$.error"
+				}
+			}
+		},
+		"doT.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
+			"name": "Account Request",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\" \\\"accounts\\\": [\\n    {\\n      \\\"name\\\": \\\"Partner7\\\",\\n      \\\"homeFolder\\\": \\\"/usrdata\\\",\\n      \\\"homeFolderAccessLevel\\\": \\\"PRIVATE\\\",\\n      \\\"uid\\\": \\\"2222\\\",\\n      \\\"gid\\\": \\\"2222\\\",\\n      \\\"mappedUser\\\": \\\"\\\",\\n      \\\"disabled\\\": false,\\n      \\\"skin\\\": \\\"Default HTML Template\\\",\\n      \\\"notes\\\": \\\"Via API\\\",\\n      \\\"type\\\": \\\"user\\\",\\n      \\\"unlicensed\\\": false,\\n      \\\"authByEmail\\\": false,\\n      \\\"loginRestrictionPolicy\\\": \\\"\\\",\\n      \\\"contact\\\": {\\n        \\\"email\\\": \\\"eferrer@axway.com\\\",\\n        \\\"phone\\\": \\\"6025554444\\\"\\n      },\\n      \\\"isUnlicensedUserAllowedToReply\\\": false,\\n      \\\"wapAppletEnabled\\\": false\\n    }\\n  ]\\n}'\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"st-admin.1"
+					],
+					"context": "$.value"
+				},
+				"error": {
+					"routes": [],
+					"context": "$.error"
+				}
+			}
+		},
+		"doT.2": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
+			"name": "Create User Request",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\n  \\\"users\\\": [\\n    {\\n  \\\"name\\\": \\\"Partner7\\\",\\n  \\\"authExternal\\\": false,\\n  \\\"passwordCredentials\\\": {\\n    \\\"username\\\": \\\"Partner5\\\",\\n    \\\"password\\\": \\\"p\\\",\\n    \\\"forcePasswordChange\\\": false\\n  },\\n  \\\"locked\\\": false\\n \\n        }\\n \\n  ]\\n}\""
+				},
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"st-admin.2"
+					],
+					"context": "$.value"
+				},
+				"error": {
+					"routes": [],
+					"context": "$.error"
+				}
+			}
+		},
+		"st-admin.2": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-swagger/st-admin",
+			"name": "createUsers",
+			"method": "createUsers",
+			"parameters": [
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.value"
+				},
+				{
+					"name": "accountName",
+					"type": "string",
+					"value": "\"partner7\""
+				}
+			],
+			"outputs": {
+				"204": {
+					"routes": [],
+					"context": "$.response"
+				},
+				"400": {
+					"routes": [],
+					"context": "$.error"
+				},
+				"401": {
+					"routes": [],
+					"context": "$.error"
+				},
+				"403": {
+					"routes": [],
+					"context": "$.error"
+				},
+				"404": {
+					"routes": [],
+					"context": "$.error"
+				}
+			}
+		}
+	}
+}

@@ -91,7 +91,7 @@
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.response.data..filesize"
+					"value": "$.response.data"
 				}
 			],
 			"outputs": {
